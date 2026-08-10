@@ -6,7 +6,7 @@ from app.retry import retry
 attempts = 0
 
 
-@retry(max_retries=3, delay=1)
+@retry(max_attempts=3, delay=1)
 async def run_job():
     global attempts
     attempts += 1
