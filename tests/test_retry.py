@@ -1,4 +1,4 @@
-import asyncio
+import pytest
 
 from app.retry import retry
 
@@ -7,7 +7,7 @@ attempts = 0
 
 
 @retry(max_retries=3, delay=1)
-async def test_job():
+async def run_job():
     global attempts
     attempts += 1
 
@@ -19,10 +19,10 @@ async def test_job():
     return "Job succeeded"
 
 
-async def main():
-    result = await test_job()
-    print(result)
+@pytest.mark.asyncio
+async def test_retry():
+    result = await run_job()
 
+    assert result == "Job succeeded"
+    assert attempts == 3
 
-if __name__ == "__main__":
-    asyncio.run(main())
